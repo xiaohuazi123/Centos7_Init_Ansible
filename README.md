@@ -52,3 +52,23 @@ ansible_ssh_pass=123456
 - 如果同时还要初始化本机，也请填写本机内网IP地址
 
 上面这个主机列表，默认使用同一个密码，方便批量初始化，初始化完毕之后，可以用其他第三方工具去修改主机密码。
+ 
+
+修改ansible.cfg ，把host_key_checking的注释去掉，允许密码连接被控主机。
+```
+[root@localhost ~]# vi /etc/ansible/ansible.cfg 
+# uncomment this to disable SSH key host checking
+host_key_checking = False  
+```
+  
+## 3. 测试ansible
+随意执行一个指令，测试ansibile可连接远程主机：
+```
+[root@localhost ~]# ansible servers  -a "uptime"
+192.168.1.99 | CHANGED | rc=0 >>
+ 04:24:29 up  2:13,  2 users,  load average: 0.00, 0.01, 0.05
+
+```
+这就表示可以正常运行了。
+
+## 4. 使用ansible自动安装GreatSQL
